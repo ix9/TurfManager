@@ -1,0 +1,101 @@
+﻿@model IEnumerable<TurfManager.Models.SummaryViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Summary - Last 45 days</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+
+            <th>
+                Date
+            </th>
+
+            <th>
+                Max
+            </th>
+            <th>
+                Min
+            </th>
+            <th>
+                Daily GDD
+            </th>
+            <th>
+                GDD Total
+            </th>
+            <th>
+                Action
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+
+
+
+        <tr style="background-color: @(item.summaryBackgroundTR)">
+<td>
+                @Convert.ToDateTime(item.summaryDateWst).ToLongDateString()
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.summaryMaxTemp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.summaryMinTemp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.summaryGddtotal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.summaryGddcumulative)
+            </td>
+
+            <td>
+                @{
+                    switch (item.summaryAction)
+                    {
+                        case 1:
+                            <div class="actionstyle">
+                                <img alt="PGR" src="~/images/pgr.png" width="32" height="32" />PGR
+                            </div>
+
+                            break;
+                        case 2:
+                            <div class="actionstyle">
+                                <img alt="Mow" src="~/images/mow.png" width="32" height="32" />Mow
+                            </div>
+
+                            break;
+
+                        case 3:
+                            <div class="actionstyle">
+                                <img alt="Fert" src="~/images/fert.png" width="32" height="32" />Fert
+                            </div>
+                            break;
+                        case 4:
+                                <div class="actionstyle">
+                                    <img alt="Wetter" src="~/images/wetter.png" width="32" height="32" />Wetter
+                                </div>
+                            break;
+                        case 5:
+                                    <div class="actionstyle">
+                                        <img alt="Seaweed" src="~/images/seaweed.png" width="32" height="32" />Seaweed
+                                    </div>
+                            break;
+
+                            }
+
+                }
+            </td>
+
+
+        </tr>
+}
+    </tbody>
+</table>
