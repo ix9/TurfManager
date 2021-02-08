@@ -38,7 +38,7 @@
 
 
 
-        <tr style="background-color: @(item.summaryBackgroundTR)">
+        <tr>
 <td>
                 @Convert.ToDateTime(item.summaryDateWst).ToLongDateString()
             </td>
@@ -57,41 +57,48 @@
             </td>
 
             <td>
-                @{
-                    switch (item.summaryAction)
+                @{ switch (item.summaryAction)
                     {
                         case 1:
-                            <div class="actionstyle">
-                                <img alt="PGR" src="~/images/pgr.png" width="32" height="32" />PGR
-                            </div>
+            <div class="actionstyle">
+                <img alt="PGR" src="~/images/pgr.png" width="32" height="32" />PGR
+            </div>
+            break;
+        case 2:
+            <div class="actionstyle">
+                <img alt="Mow" src="~/images/mow.png" width="32" height="32" />Mow
+            </div>
+            break;
 
-                            break;
-                        case 2:
-                            <div class="actionstyle">
-                                <img alt="Mow" src="~/images/mow.png" width="32" height="32" />Mow
-                            </div>
+        case 3:
+            <div class="actionstyle">
+                <img alt="Fert" src="~/images/fert.png" width="32" height="32" />Fert
+            </div>
+            break;
+        case 4:
+            <div class="actionstyle">
+                <img alt="Wetter" src="~/images/wetter.png" width="32" height="32" />Wetter
+            </div>
+            break;
 
-                            break;
+        case 5:
+            <div class="actionstyle">
+                <img alt="Seaweed" src="~/images/seaweed.png" width="32" height="32" />Seaweed
+            </div>
+                                    break;
+                                case 6:
+            <div class="actionstyle">
+                <img alt="Iron" src="~/images/iron.png" width="32" height="32" />Iron Chelate
+            </div>
+                                    break;
+                                case 7:
+            <div class="actionstyle">
+                <img alt="Barricade" src="~/images/barricade.png" width="32" height="32" />Barricade
+            </div>
+         break;
 
-                        case 3:
-                            <div class="actionstyle">
-                                <img alt="Fert" src="~/images/fert.png" width="32" height="32" />Fert
-                            </div>
-                            break;
-                        case 4:
-                                <div class="actionstyle">
-                                    <img alt="Wetter" src="~/images/wetter.png" width="32" height="32" />Wetter
-                                </div>
-                            break;
-                        case 5:
-                                    <div class="actionstyle">
-                                        <img alt="Seaweed" src="~/images/seaweed.png" width="32" height="32" />Seaweed
-                                    </div>
-                            break;
-
-                            }
-
-                }
+                    }
+                    }
             </td>
 
 

@@ -340,3 +340,4 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+/TurfManager/Properties/ServiceDependencies/TurfManager - Web Deploy1/profile.arm.json
