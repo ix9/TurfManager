@@ -6,27 +6,18 @@ namespace TurfManager.Models
 {
     public partial class GDDContext : DbContext
     {
-        //public GDDContext()
-        //{
-        //}
-
+     
         public GDDContext(DbContextOptions<GDDContext> options)
             : base(options)
         {
         }
 
         public virtual DbSet<Summary> Summary { get; set; }
+        public virtual DbSet<Action> Action { get; set; }
         public virtual DbSet<Temperatures> Temperatures { get; set; }
         public virtual DbSet<UserInfo> UserInfo { get; set; }
+        public virtual DbSet<ActionSummary> ActionSummary { get; set; }
 
-        //        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //        {
-        //            if (!optionsBuilder.IsConfigured)
-        //            {
-        //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-        //                optionsBuilder.UseSqlServer("Server=gddxrw.database.windows.net;Database=GDD;User ID=gddtracker;Password=Gddapp123;Encrypt=True;TrustServerCertificate=False");
-        //            }
-        //        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -54,6 +45,28 @@ namespace TurfManager.Models
                 entity.Property(e => e.SummaryMinTemp).HasColumnType("decimal(2, 0)");
             });
 
+            modelBuilder.Entity<ActionSummary>(entity =>
+            {
+                entity.ToView(nameof(ActionSummary));
+                entity.HasNoKey();
+                entity.Property(e => e.ActionID).HasColumnName("ActionID");
+                entity.Property(e => e.ActionName).HasColumnName("ActionName");
+                entity.Property(e => e.ActionIcon).HasColumnName("ActionIcon");
+                entity.Property(e => e.ActionLastDate).HasColumnName("ActionLastDate");
+                entity.Property(e => e.ActionDaysAgo).HasColumnName("ActionDaysAgo");
+
+            });
+
+            modelBuilder.Entity<Action>(entity =>
+            {
+                entity.HasKey(e => e.ActionID)
+                  .HasName("PK_Action");
+                //entity.Property(e => e.ActionID).HasColumnName("ActionID");
+                entity.Property(e => e.ActionName).HasColumnName("ActionName");
+                entity.Property(e => e.ActionIcon).HasColumnName("ActionIcon");
+
+            });
+
             modelBuilder.Entity<Temperatures>(entity =>
             {
                 entity.HasKey(e => e.ReadingKey)
@@ -70,6 +83,8 @@ namespace TurfManager.Models
 
                 entity.Property(e => e.ReadingValue).HasColumnType("decimal(2, 0)");
             });
+
+            
 
             modelBuilder.Entity<UserInfo>(entity =>
             {

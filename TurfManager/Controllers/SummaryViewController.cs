@@ -28,7 +28,7 @@ namespace TurfManager.Controllers
                     client.BaseAddress = new Uri("https://turfmanager.azurewebsites.net/api/");
                 }
 
-                var responseTask = client.GetAsync("summaries?Last45=true");
+                var responseTask = client.GetAsync("summaries?Last45=True");
                 responseTask.Wait();
 
                 var result = responseTask.Result;

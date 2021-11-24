@@ -11,7 +11,7 @@ using TurfManager.Models;
 namespace TurfManager.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("api/[controller]")] 
     [ApiController]
     public class TemperaturesController : ControllerBase
     {

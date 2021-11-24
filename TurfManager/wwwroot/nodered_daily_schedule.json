@@ -1,0 +1,157 @@
+[
+  {
+    "id": "b845043e.bfef08",
+    "type": "function",
+    "z": "c0558050.6224d",
+    "name": "Create PUT request to Summaries API",
+    "func": "var Authorization = \"Bearer XXXXX\"\nvar URL = \"https://turfmanager.azurewebsites.net/api/summaries/\";\n\n\nfunction parseFloat2Decimals(value) {\n    return parseFloat(parseFloat(value).toFixed(2));\n}\n\nDate.prototype.addHours= function(h){\n    this.setHours(this.getHours()+h);\n    return this;}\n    \n    \n    Date.prototype.yyyymmdd = function() {\n  var mm = this.getMonth() + 1; // getMonth() is zero-based\n  var dd = this.getDate();\n  \n  return [this.getFullYear(),\n          (mm>9 ? '' : '0') + mm,\n          (dd>9 ? '' : '0') + dd\n         ].join('');\n};\n\n\n    \nvar date = new Date();\n\n//DATEWST = date.addHours(8);\nDATEWST = date.addHours(-24);\n//YESTERDAY = date.setDate(date.getDate() - 1);\nDATESTRING = date.yyyymmdd();\n//DATESTRING = YESTERDAY.yyyymmdd();\n\nURL = URL + DATESTRING;\n\n\n  var body = {DateStringforClarity: DATESTRING}  \n  msg.payload = body  \n  msg.headers = {};  \n  msg.headers['Content-Type'] = 'application/json';  \n  msg.headers['Authorization'] = Authorization;  \n  msg.url = URL  \n  msg.method = 'PUT'  \n  return msg;  ",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 650,
+    "y": 2760,
+    "wires": [
+      [
+        "774ace96.7cfaf"
+      ]
+    ]
+  },
+  {
+    "id": "774ace96.7cfaf",
+    "type": "http request",
+    "z": "c0558050.6224d",
+    "name": "",
+    "method": "use",
+    "ret": "txt",
+    "url": "",
+    "tls": "6c683aa1.bd0744",
+    "x": 1130,
+    "y": 2760,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "2cf48b44.f91154",
+    "type": "inject",
+    "z": "c0558050.6224d",
+    "name": "6am Everyday",
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "repeat": "",
+    "crontab": "00 06 * * *",
+    "once": false,
+    "onceDelay": 0.1,
+    "x": 260,
+    "y": 2760,
+    "wires": [
+      [
+        "b845043e.bfef08"
+      ]
+    ]
+  },
+  {
+    "id": "4c16dd71.aee784",
+    "type": "comment",
+    "z": "c0558050.6224d",
+    "name": "6am Schedule to create yesterdays temperature summary",
+    "info": "",
+    "x": 350,
+    "y": 2700,
+    "wires": []
+  },
+  {
+    "id": "2859b4ab.61772c",
+    "type": "http request",
+    "z": "c0558050.6224d",
+    "name": "Get SummaryView",
+    "method": "GET",
+    "ret": "txt",
+    "url": "https://turfmanager.azurewebsites.net/SummaryView",
+    "tls": "6c683aa1.bd0744",
+    "x": 590,
+    "y": 2840,
+    "wires": [
+      [
+        "482ab55f.12ce3c"
+      ]
+    ]
+  },
+  {
+    "id": "aa91eaf4.ed3cb8",
+    "type": "inject",
+    "z": "c0558050.6224d",
+    "name": "7am Everyday",
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "repeat": "",
+    "crontab": "00 07 * * *",
+    "once": false,
+    "onceDelay": 0.1,
+    "x": 260,
+    "y": 2840,
+    "wires": [
+      [
+        "2859b4ab.61772c"
+      ]
+    ]
+  },
+  {
+    "id": "482ab55f.12ce3c",
+    "type": "function",
+    "z": "c0558050.6224d",
+    "name": "Check Cumulative GDD",
+    "func": "var cumulative = msg.headers.cumulative;\n\nif(cumulative > 200)\n{\n    msg.payload = \"GDD is \" + cumulative;\n    msg.sound = \"magic\";\n    msg.title = \"TurfManager Alert!\";\n    //msg.image = \"http://192.168.0.0:8080/static/grass.jpg\";\n    msg.image = \"http://192.168.0.0/snap.jpeg\";\n    msg.url = \"https://turfmanager.azurewebsites.net/SummaryView\";\n    msg.url_title = \"See last 30 days\";\n}\nelse\n{\n    return null;\n}\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 850,
+    "y": 2840,
+    "wires": [
+      [
+        "c1a0d4b7.45fc68"
+      ]
+    ]
+  },
+  {
+    "id": "c1a0d4b7.45fc68",
+    "type": "pushover api",
+    "z": "c0558050.6224d",
+    "keys": "ce8a1ad8.19bc4",
+    "title": "TurfManager",
+    "name": "Notify Human",
+    "x": 1130,
+    "y": 2840,
+    "wires": []
+  },
+  {
+    "id": "cac62566.294f08",
+    "type": "comment",
+    "z": "c0558050.6224d",
+    "name": "7am Schedule to notify GDD if above 200",
+    "info": "",
+    "x": 300,
+    "y": 2800,
+    "wires": []
+  },
+  {
+    "id": "6c683aa1.bd0744",
+    "type": "tls-config",
+    "z": "",
+    "name": "TLS Configuration",
+    "cert": "",
+    "key": "",
+    "ca": "",
+    "certname": "",
+    "keyname": "",
+    "caname": "",
+    "servername": "",
+    "verifyservercert": false
+  },
+  {
+    "id": "ce8a1ad8.19bc4",
+    "type": "pushover-keys",
+    "z": "",
+    "name": "pushovername"
+  }
+]

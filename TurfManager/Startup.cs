@@ -15,6 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
+using System.Reflection;
 
 namespace TurfManager
 {
@@ -37,6 +38,28 @@ namespace TurfManager
             services.AddDbContextPool<GDDContext>(options => options.UseSqlServer(connection));
 
             services.AddControllersWithViews();
+            services.AddSwaggerGen(c =>
+            {
+                //  c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "TurfManager", Version = "v1" });
+                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo 
+                {
+                    Title = "TurfManager",
+                    Description = "Access the TurfManager API that allows you to work with the backend", 
+                    Contact = new Microsoft.OpenApi.Models.OpenApiContact 
+                    { 
+                        Name = "XRW Technology", 
+                        Url = new Uri("https://blog.xrw.tech")                
+                    },
+                    Version = "v1",
+                });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            }).AddSwaggerGenNewtonsoftSupport();
+            
+
+            
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
@@ -61,6 +84,9 @@ namespace TurfManager
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TurfManager v1"));
+
             }
             else
             {

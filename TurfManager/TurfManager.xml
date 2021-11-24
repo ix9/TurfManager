@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TurfManager</name>
+    </assembly>
+    <members>
+        <member name="M:TurfManager.Controllers.SummariesController.GetSummary(System.Boolean)">
+            <summary>
+            Returns all summaries in the database. No JWT required.
+            </summary>
+            <param name="Last45"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TurfManager.Controllers.SummariesController.GetOverview">
+            <summary>
+            Get an Overview of the last time each of the actions were performed.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TurfManager.Controllers.SummariesController.GetGDD">
+            <summary>
+            Get the Cumulative GDD Since the last application of PGR. Requires JWT.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TurfManager.Controllers.SummariesController.GetSummary(System.Int32)">
+            <summary>
+            Get a specific Summary by ID (not really useful yet) Requires JWT.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TurfManager.Controllers.SummariesController.PutSummary(System.String)">
+            <summary>
+            OLD: Create a Summary record (min and max temperature) for a specific date (send in a YYYYMMDD string) Uses Stored Prod = TO BE DEPRECATED. Requires JWT.
+            </summary>
+            <param name="DateString"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TurfManager.Controllers.SummariesController.GenerateSummary(System.String)">
+            <summary>
+            NEW: Generate a Summary Record for a specific date (send in YYYYMMDD as string) Requires JWT.
+            </summary>
+            <param name="inDate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TurfManager.Controllers.SummariesController.PostSummary(System.Int32)">
+            <summary>
+            OLD: Log an Action to the Summary table. Send in an Action Integer. Replaced by POST: /api/Summaries/SummaryAction. Requires JWT.
+            </summary>
+            <param name="Action"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TurfManager.Controllers.SummariesController.PostNewSummaryAction(System.Int32)">
+            <summary>
+            NEW: Log a new Action to the Summary Table. TO DO: Account for Timezone Offset. Requires JWT
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TurfManager.Controllers.SummariesController.DeleteSummary(System.Int32)">
+            <summary>
+            Delete a specific Summary by ID - Requires JWT.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+            
+        </member>
+    </members>
+</doc>

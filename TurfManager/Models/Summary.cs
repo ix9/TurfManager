@@ -14,6 +14,9 @@ namespace TurfManager.Models
         public decimal? SummaryGddtotal { get; set; }
         public bool? SummaryApplication { get; set; }
         public int? SummaryAction { get; set; }
+        //test again
+        //public string? SummaryActionName { get; set; }
+        //public string? SummaryActionIcon { get; set; }
 
     }
 }

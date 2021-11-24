@@ -18,5 +18,7 @@ namespace TurfManager.Models
         public string? summaryBackgroundTR { get; set; }
         public bool? summaryApplication { get; set; }
         public int? summaryAction { get; set; }
+        public string? summaryActionName { get; set; }
+        public string? summaryActionIcon { get; set; }
     }
 }

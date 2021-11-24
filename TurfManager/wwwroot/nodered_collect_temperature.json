@@ -1,0 +1,115 @@
+[
+  {
+    "id": "a76291a7.a2be9",
+    "type": "hue-temperature",
+    "z": "a9f06c3e.99569",
+    "name": "Hue outdoor temp. sensor 1",
+    "bridge": "d471d95.d798d28",
+    "sensorid": "11",
+    "x": 160,
+    "y": 300,
+    "wires": [
+      [
+        "8e076f41.e4c3d"
+      ]
+    ]
+  },
+  {
+    "id": "491650b4.ccc8a",
+    "type": "function",
+    "z": "a9f06c3e.99569",
+    "name": "Create POST to Temperatures API",
+    "func": "var Temperature = msg.payload\nvar Authorization = \"Bearer XXXX\"\nvar URL = \"https://turfmanager.azurewebsites.net/api/temperatures\"\n\n\nfunction parseFloat2Decimals(value) {\n    return parseFloat(parseFloat(value).toFixed(2));\n}\n\nDate.prototype.addHours= function(h){\n    this.setHours(this.getHours()+h);\n    return this;}\n    \n    \n    Date.prototype.yyyymmdd = function() {\n  var mm = this.getMonth() + 1; // getMonth() is zero-based\n  var dd = this.getDate();\n  \n  return [this.getFullYear(),\n          (mm>9 ? '' : '0') + mm,\n          (dd>9 ? '' : '0') + dd\n         ].join('');\n};\n\nvar TemperatureReading = parseFloat2Decimals(msg.payload);\n    \nvar date = new Date();\n\nDATEWST = date.addHours(8);\n\nDATESTRING = date.yyyymmdd();\n//DATESTRING = date.addHours(8).yyyymmdd();\n\n\n  var body = {readingDateString: DATESTRING ,readingDateTimeWst: DATEWST, readingValue : TemperatureReading}  \n  msg.payload = body  \n  msg.headers = {};  \n  msg.headers['Content-Type'] = 'application/json';  \n  msg.headers['Authorization'] = Authorization;  \n  msg.url = URL  \n  msg.method = 'POST'  \n  return msg;  ",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 640,
+    "y": 300,
+    "wires": [
+      [
+        "67a84d14.524e04"
+      ]
+    ]
+  },
+  {
+    "id": "67a84d14.524e04",
+    "type": "http request",
+    "z": "a9f06c3e.99569",
+    "name": "",
+    "method": "use",
+    "ret": "txt",
+    "url": "",
+    "tls": "6c683aa1.bd0744",
+    "x": 1010,
+    "y": 300,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "8e076f41.e4c3d",
+    "type": "change",
+    "z": "a9f06c3e.99569",
+    "name": "Grab Celsius",
+    "rules": [
+      {
+        "t": "move",
+        "p": "payload.celsius",
+        "pt": "msg",
+        "to": "payload",
+        "tot": "msg"
+      },
+      {
+        "t": "set",
+        "p": "topic",
+        "pt": "msg",
+        "to": "Temperature",
+        "tot": "str"
+      }
+    ],
+    "action": "",
+    "property": "",
+    "from": "",
+    "to": "",
+    "reg": false,
+    "x": 370,
+    "y": 300,
+    "wires": [
+      [
+        "491650b4.ccc8a"
+      ]
+    ]
+  },
+  {
+    "id": "d69a8c7e.951b2",
+    "type": "comment",
+    "z": "a9f06c3e.99569",
+    "name": "On Temperature change from Hue Outdoor Sensor",
+    "info": "",
+    "x": 230,
+    "y": 260,
+    "wires": []
+  },
+  {
+    "id": "d471d95.d798d28",
+    "type": "hue-bridge",
+    "z": "",
+    "name": "HueBridgeName",
+    "bridge": "192.168.0.0",
+    "key": "X85gBzyVTaxnIpBT6-bJ0dkdlZovHOUjeC6oWy-D",
+    "interval": "3000"
+  },
+  {
+    "id": "6c683aa1.bd0744",
+    "type": "tls-config",
+    "z": "",
+    "name": "TLS Configuration",
+    "cert": "",
+    "key": "",
+    "ca": "",
+    "certname": "",
+    "keyname": "",
+    "caname": "",
+    "servername": "",
+    "verifyservercert": false
+  }
+]
