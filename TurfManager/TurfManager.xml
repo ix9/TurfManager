@@ -65,5 +65,14 @@
             <returns></returns>
             
         </member>
+        <member name="M:TurfManager.Controllers.TemperaturesController.LogTemperature(System.String,System.Decimal)">
+            <summary>
+            POST: api/Temperatures/Log/YYYYMMDD NEW: Post a temperature to the database
+            </summary>
+            <param name="inDateString"></param>
+            <param name="inTemperature"></param>
+            <returns></returns>
+            
+        </member>
     </members>
 </doc>

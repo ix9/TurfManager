@@ -105,6 +105,35 @@ namespace TurfManager.Controllers
             return CreatedAtAction("GetTemperatures", new { id = temperatures.ReadingKey }, temperatures);
         }
 
+
+
+        /// <summary>
+        /// POST: api/Temperatures/Log/YYYYMMDD NEW: Post a temperature to the database
+        /// </summary>
+        /// <param name="inDateString"></param>
+        /// <param name="inTemperature"></param>
+        /// <returns></returns>
+        /// 
+        [HttpPost("Log/{inDateString}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<Temperatures>> LogTemperature(string inDateString, decimal inTemperature)
+        {
+
+            var TemperatureLog = new Temperatures
+            {
+                ReadingDateString = inDateString,
+                ReadingValue = inTemperature,
+                ReadingDateTimeWst = DateTime.Now
+            };
+            _context.Temperatures.Add(TemperatureLog);
+            await _context.SaveChangesAsync();
+            return Ok();
+
+        }
+
+
+
         // DELETE: api/Temperatures/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Temperatures>> DeleteTemperatures(int id)

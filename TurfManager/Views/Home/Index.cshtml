@@ -1,8 +1,31 @@
-﻿@{
+﻿@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@model IEnumerable<TurfManager.Models.ActionSummaryView>
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     
+    <table class="table">
+    <tbody>
+        <tr>
+            
+            <td>Action </td>
+            <td>Date</td>
+            <td>Days Ago</td>
+        </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            
+            <td><img src="@Html.DisplayFor(modelItem => item.actionIcon)" width="32" height="32"/> @Html.DisplayFor(modelItem => item.actionName)</td>
+            <td>@Convert.ToDateTime(item.actionLastDate).ToLongDateString()</td>
+            <td>@Html.DisplayFor(modelItem => item.actionDaysAgo)</td>
+        </tr>
+        
+    }
+    
+    </tbody>    
+    </table>
 </div>

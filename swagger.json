@@ -1,0 +1,781 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "TurfManager",
+    "description": "Access the TurfManager API that allows you to work with the backend",
+    "contact": {
+      "name": "XRW Technology",
+      "url": "https://blog.xrw.tech"
+    },
+    "version": "v1"
+  },
+  "paths": {
+    "/api/Summaries": {
+      "get": {
+        "tags": [
+          "Summaries"
+        ],
+        "summary": "Returns all summaries in the database. No JWT required.",
+        "parameters": [
+          {
+            "name": "Last45",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Summary"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Summaries"
+        ],
+        "summary": "OLD: Log an Action to the Summary table. Send in an Action Integer. Replaced by POST: /api/Summaries/SummaryAction. Requires JWT.",
+        "parameters": [
+          {
+            "name": "Action",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Summaries/GetActionSummary": {
+      "get": {
+        "tags": [
+          "Summaries"
+        ],
+        "summary": "Get an Overview of the last time each of the actions were performed.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ActionSummary"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Summaries/GetCumulativeGDD": {
+      "get": {
+        "tags": [
+          "Summaries"
+        ],
+        "summary": "Get the Cumulative GDD Since the last application of PGR. Requires JWT.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Summary"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Summaries/GetByID/{id}": {
+      "get": {
+        "tags": [
+          "Summaries"
+        ],
+        "summary": "Get a specific Summary by ID (not really useful yet) Requires JWT.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Summary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Summaries/{DateString}": {
+      "put": {
+        "tags": [
+          "Summaries"
+        ],
+        "summary": "OLD: Create a Summary record (min and max temperature) for a specific date (send in a YYYYMMDD string) Uses Stored Prod = TO BE DEPRECATED. Requires JWT.",
+        "parameters": [
+          {
+            "name": "DateString",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Summaries/Generate/{inDate}": {
+      "post": {
+        "tags": [
+          "Summaries"
+        ],
+        "summary": "NEW: Generate a Summary Record for a specific date (send in YYYYMMDD as string) Requires JWT.",
+        "parameters": [
+          {
+            "name": "inDate",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Summaries/LogAction/{id}": {
+      "post": {
+        "tags": [
+          "Summaries"
+        ],
+        "summary": "NEW: Log a new Action to the Summary Table. TO DO: Account for Timezone Offset. Requires JWT",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Summary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Summaries/DeleteByID/{id}": {
+      "delete": {
+        "tags": [
+          "Summaries"
+        ],
+        "summary": "Delete a specific Summary by ID - Requires JWT.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Summary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Temperatures": {
+      "get": {
+        "tags": [
+          "Temperatures"
+        ],
+        "parameters": [
+          {
+            "name": "ShowAll",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Temperatures"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Temperatures"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Temperatures"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Temperatures"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Temperatures"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Temperatures"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Temperatures"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Temperatures"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Temperatures"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Temperatures"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Temperatures/{id}": {
+      "get": {
+        "tags": [
+          "Temperatures"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Temperatures"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Temperatures"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Temperatures"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Temperatures"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Temperatures"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Temperatures"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Temperatures"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Temperatures"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Temperatures"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Temperatures"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Temperatures"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Temperatures/Log/{inDateString}": {
+      "post": {
+        "tags": [
+          "Temperatures"
+        ],
+        "summary": "POST: api/Temperatures/Log/YYYYMMDD NEW: Post a temperature to the database",
+        "parameters": [
+          {
+            "name": "inDateString",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "inTemperature",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Temperatures"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Temperatures"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Temperatures"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Token": {
+      "post": {
+        "tags": [
+          "Token"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserInfo"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserInfo"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserInfo"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ActionSummary": {
+        "type": "object",
+        "properties": {
+          "actionID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "actionName": {
+            "type": "string",
+            "nullable": true
+          },
+          "actionIcon": {
+            "type": "string",
+            "nullable": true
+          },
+          "actionLastDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "actionDaysAgo": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": { }
+      },
+      "Summary": {
+        "type": "object",
+        "properties": {
+          "summaryId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "summaryDateGenerated": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "summaryDateWst": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "summaryDateString": {
+            "type": "string",
+            "nullable": true
+          },
+          "summaryMaxTemp": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "summaryMinTemp": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "summaryGddtotal": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "summaryApplication": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "summaryAction": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Temperatures": {
+        "type": "object",
+        "properties": {
+          "readingKey": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "readingDateString": {
+            "type": "string",
+            "nullable": true
+          },
+          "readingDateTimeWst": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "readingValue": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserInfo": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "userName": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

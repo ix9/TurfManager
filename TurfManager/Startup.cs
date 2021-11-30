@@ -16,6 +16,7 @@ using System.Text;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
 using System.Reflection;
+using Microsoft.Extensions.Options;
 
 namespace TurfManager
 {
@@ -57,7 +58,14 @@ namespace TurfManager
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
             }).AddSwaggerGenNewtonsoftSupport();
-            
+
+            Action<TurfManager.TMGlobals> tmglobals = (opt =>
+            {
+               // opt.globalApiUrl = new Uri(Request.Scheme);
+            });
+
+            services.Configure(tmglobals);
+            services.AddSingleton(resolver => resolver.GetRequiredService<IOptions<TMGlobals>>().Value);
 
             
 

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace TurfManager.Models
 {
-    public class SummaryViewModel
+    public class SummaryView
     {
         public int summaryId { get; set; }
         public DateTime summaryDateGenerated { get; set; }

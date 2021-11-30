@@ -70,7 +70,7 @@ namespace TurfManager.Controllers
 
 
         }
-        // GET: api/Summaries/ActionSummary
+        // GET: api/Summaries/GetActionSummary
         /// <summary>
         /// Get an Overview of the last time each of the actions were performed.
         /// </summary>

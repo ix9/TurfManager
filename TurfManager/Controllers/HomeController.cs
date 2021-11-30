@@ -5,8 +5,11 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using TurfManager.Models;
+using Action = System.Action;
 
 
 namespace TurfManager.Controllers
@@ -22,9 +25,35 @@ namespace TurfManager.Controllers
 
         public IActionResult Index()
         {
-            
+            IEnumerable<ActionSummaryView> actionlist = null;
+            using (var client = new HttpClient())
+            {
+                var apiUrl = new Uri(Request.Scheme + "://" + Request.Host.Value + "/api/");
+                client.BaseAddress = apiUrl;
 
-            return View();
+                var responseTask = client.GetAsync("summaries/GetActionSummary");
+                responseTask.Wait();
+
+                var result = responseTask.Result;
+                if (result.IsSuccessStatusCode)
+                {
+
+
+                    var readTask = result.Content.ReadAsAsync<IList<ActionSummaryView>>();
+                    readTask.Wait();
+                    actionlist = readTask.Result;
+                   
+
+                }
+                else
+                {
+                    actionlist = Enumerable.Empty<ActionSummaryView>();
+                    ModelState.AddModelError(string.Empty, "Server error.");
+                }
+            }
+
+
+            return View(actionlist);
         }
 
         public IActionResult Privacy()

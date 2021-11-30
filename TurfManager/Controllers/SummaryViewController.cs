@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using TurfManager.Models;
+
 
 namespace TurfManager.Controllers
 {
@@ -12,21 +15,15 @@ namespace TurfManager.Controllers
     {
         public IActionResult Index()
         {
-            IEnumerable<SummaryViewModel> summarylist = null;
+            IEnumerable<SummaryView> summarylist = null;
             using (var client = new HttpClient())
             {
 
-                bool isDevelopment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
+                // bool isDevelopment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
 
-                if (isDevelopment)
-                {
-                    client.BaseAddress = new Uri("https://localhost:44332/api/");
-                    //client.BaseAddress = new Uri(Context.Request.Host);
-                }
-                else
-                {
-                    client.BaseAddress = new Uri("https://turfmanager.azurewebsites.net/api/");
-                }
+                var apiUrl = new Uri(Request.Scheme + "://" + Request.Host.Value + "/api/");
+                client.BaseAddress = apiUrl;
+               // client.BaseAddress = globalApiUrl;
 
                 var responseTask = client.GetAsync("summaries?Last45=True");
                 responseTask.Wait();
@@ -35,7 +32,7 @@ namespace TurfManager.Controllers
                 if (result.IsSuccessStatusCode)
                 {
 
-                    var readTask = result.Content.ReadAsAsync<IList<SummaryViewModel>>();
+                    var readTask = result.Content.ReadAsAsync<IList<SummaryView>>();
                     readTask.Wait();
                     summarylist = readTask.Result;
 
@@ -44,11 +41,6 @@ namespace TurfManager.Controllers
                     foreach (var item in summarylist)
                     {
 
-
-                        //if (item.summaryApplication.GetValueOrDefault(false))
-                        //{
-                        //    RunningTotal = 0;
-                        //}
 
                         if (item.summaryAction == 1)
                         {
@@ -65,16 +57,7 @@ namespace TurfManager.Controllers
                             item.summaryBackgroundTR = "#FF545D";
                         }
 
-                        //switch (item.summaryGddcumulative) 
-                        //{
-                        //    case decimal n when (n == 0):
-                        //        item.summaryBackgroundTR = "#99ffa0";
-                        //        break;
-                        //    case decimal n when (n >= 200):
-                        //        item.summaryBackgroundTR = "#FF545D";
-                        //        break;
-                        //}
-
+                        
                     }
 
                     HttpContext.Response.Headers.Add("Cumulative", RunningTotal.ToString());
@@ -84,8 +67,8 @@ namespace TurfManager.Controllers
                 }
                 else
                 {
-                    summarylist = Enumerable.Empty<SummaryViewModel>();
-                    ModelState.AddModelError(string.Empty, "Server errror - please contact administrator.");
+                    summarylist = Enumerable.Empty<SummaryView>();
+                    ModelState.AddModelError(string.Empty, "Server error");
 
                 }
             }
