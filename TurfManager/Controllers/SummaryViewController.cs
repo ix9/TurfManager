@@ -23,6 +23,10 @@ namespace TurfManager.Controllers
 
                 var apiUrl = new Uri(Request.Scheme + "://" + Request.Host.Value + "/api/");
                 client.BaseAddress = apiUrl;
+                System.Diagnostics.Debug.WriteLine(apiUrl);
+                
+
+
                // client.BaseAddress = globalApiUrl;
 
                 var responseTask = client.GetAsync("summaries?Last45=True");

@@ -23,6 +23,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:TurfManager.Controllers.SummariesController.GetDateOfLastAction(System.Int32)">
+            <summary>
+            Get the date of the last action logged -Requires JWT.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:TurfManager.Controllers.SummariesController.GetSummary(System.Int32)">
             <summary>
             Get a specific Summary by ID (not really useful yet) Requires JWT.

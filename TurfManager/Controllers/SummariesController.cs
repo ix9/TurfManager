@@ -125,6 +125,23 @@ namespace TurfManager.Controllers
 
         }
 
+        // GET: api/Summaries/GetDateOfLastAction/{ActionID}
+        /// <summary>
+        /// Get the date of the last action logged -Requires JWT.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("GetDateOfLastAction/{id}")]
+        public async Task<ActionResult<Summary>> GetDateOfLastAction(int id)
+        {
+            //get the date the last ActionID was logged.
+            var allSummaries = from sum in _context.Summary
+                             where sum.SummaryAction == id
+                             select sum;
+            var dateOfLastAction = allSummaries.Max(Summary => Summary.SummaryDateWst);
+
+            return Ok(dateOfLastAction);
+        }
 
         // GET: api/Summaries/5
         /// <summary>

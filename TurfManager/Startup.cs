@@ -37,7 +37,7 @@ namespace TurfManager
         {
             var connection = Configuration.GetConnectionString("GDDDatabase");
             services.AddDbContextPool<GDDContext>(options => options.UseSqlServer(connection));
-
+            System.Diagnostics.Debug.WriteLine(Configuration.GetConnectionString("GDDDatabase"));
             services.AddControllersWithViews();
             services.AddSwaggerGen(c =>
             {
