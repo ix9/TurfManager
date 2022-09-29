@@ -8,7 +8,7 @@ trigger:
 
 pool:
   vmImage: 'windows-latest'
-  name: 'local.maow.co'
+  name: 'Laptop'
 
 variables:
   solution: '**/*.sln'
