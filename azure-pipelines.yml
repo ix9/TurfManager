@@ -1,12 +1,5 @@
 # ASP.NET Core (.NET Framework)
-- task: AzureRmWebAppDeployment@4
-  inputs:
-    ConnectionType: 'AzureRM'
-    azureSubscription: 'MSDN Benefits(b688ce17-4a97-4ef3-95d5-855fedb728e0)'
-    appType: 'webApp'
-    WebAppName: 'TurfManager'
-    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
-    JSONFiles: '**/appsettings.json'
+
 # Build and test ASP.NET Core projects targeting the full .NET Framework.
 # Add steps that publish symbols, save build artifacts, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
@@ -41,3 +34,12 @@ steps:
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'MSDN Benefits(b688ce17-4a97-4ef3-95d5-855fedb728e0)'
+    appType: 'webApp'
+    WebAppName: 'TurfManager'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    JSONFiles: '**/appsettings.json'
