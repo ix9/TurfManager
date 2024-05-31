@@ -160,6 +160,7 @@ namespace TurfManager.Controllers
             }
 
             return summary;
+            
         }
 
         // PUT: api/Summaries/5
@@ -176,7 +177,7 @@ namespace TurfManager.Controllers
         {
             // Generate the summary record here by DateString
             Debug.WriteLine(DateString);
-            int RowsAffected = _context.Database.ExecuteSqlCommand("EXEC spGenerateSummaryForDateString @DATESTRING", new SqlParameter("@DATESTRING", DateString));
+            int RowsAffected = _context.Database.ExecuteSqlRaw("EXEC spGenerateSummaryForDateString @DATESTRING", new SqlParameter("@DATESTRING", DateString));
                 
 
             if (RowsAffected != 1)
@@ -264,7 +265,9 @@ namespace TurfManager.Controllers
         {
             if (Action > 0)
             {
-                int RowsAffected = _context.Database.ExecuteSqlCommand("EXEC spGenerateSummaryAction @ACTION", new SqlParameter("@ACTION", Action));
+                //int RowsAffected = _context.Database.ExecuteSqlCommand("EXEC spGenerateSummaryAction @ACTION", new SqlParameter("@ACTION", Action));
+
+                int RowsAffected = _context.Database.ExecuteSqlRaw("EXEC spGenerateSummaryAction @ACTION", new SqlParameter("@ACTION", Action));
                     if (RowsAffected == 1)
                     {
                         return Ok();
