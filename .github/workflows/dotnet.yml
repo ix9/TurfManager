@@ -14,25 +14,38 @@ jobs:
       with:
        find: "(SERVERNAME)"
        replace: ${{ secrets.SERVERNAME }}
+       regex: false
+       include: '**appsettings.template.json'
+    - name: "Find and Replace db name"
+      uses: jacobtomlinson/gha-find-replace@v2
+      with:
+       find: "(DBNAME)"
+       replace: ${{ secrets.DBNAME }}
+       regex: false
        include: '**appsettings.template.json'
     - name: "Find and Replace db user"
       uses: jacobtomlinson/gha-find-replace@v2
       with:
         find: "(DBUSER)"
         replace: ${{ secrets.DBUSER }}
+        regex: false
         include: '**appsettings.template.json'
     - name: "Find and Replace db password"
       uses: jacobtomlinson/gha-find-replace@v2
       with:
        find: "(DBPASSWORD)"
        replace: ${{ secrets.DBPASSWORD }}
+       regex: false
        include: '**appsettings.template.json'
     - name: "Find and Replace jwtkey"
       uses: jacobtomlinson/gha-find-replace@v2
       with:
        find: "(JWTKEY)"
        replace: ${{ secrets.JWTKEY }}
-       include: '**appsettings.template.json'  
+       regex: false
+       include: '**appsettings.template.json'
+    - name: "Rename appsettings"
+      run: mv appsettings.template.json appsettings.json
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
