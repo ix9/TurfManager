@@ -45,7 +45,7 @@ jobs:
        regex: false
        include: '**appsettings.template.json'
     - name: "Rename appsettings"
-      run: mv appsettings.template.json appsettings.json
+      run: "mv ./TurfManager/appsettings.template.json ./TurfManager/appsettings.json"
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
