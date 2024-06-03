@@ -1,14 +1,14 @@
-name: .NET
-
+name: .NET Build
 on:
   push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
-
+    branches: 
+      - master
+  
 jobs:
   build:
+
     runs-on: "self-hosted"
+
     steps:
     - uses: actions/checkout@v4
     - name: Setup .NET
