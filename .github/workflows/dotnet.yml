@@ -1,4 +1,4 @@
-name: .NET Build Only
+name: .NET Build Onl
 on:
   push:
     branches: 
@@ -14,25 +14,25 @@ jobs:
       with:
        find: "(SERVERNAME)"
        replace: ${{ secrets.SERVERNAME }}
-       include: 'appsettings.template.json'
+       include: '**appsettings.template.json'
     - name: "Find and Replace db user"
       uses: jacobtomlinson/gha-find-replace@v2
       with:
         find: "(DBUSER)"
         replace: ${{ secrets.DBUSER }}
-        include: 'appsettings.template.json'
+        include: '**appsettings.template.json'
     - name: "Find and Replace db password"
       uses: jacobtomlinson/gha-find-replace@v2
       with:
        find: "(DBPASSWORD)"
        replace: ${{ secrets.DBPASSWORD }}
-       include: 'appsettings.template.json'
+       include: '**appsettings.template.json'
     - name: "Find and Replace jwtkey"
       uses: jacobtomlinson/gha-find-replace@v2
       with:
        find: "(JWTKEY)"
        replace: ${{ secrets.JWTKEY }}
-       include: 'appsettings.template.json'  
+       include: '**appsettings.template.json'  
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
