@@ -1,0 +1,47 @@
+name: .NET
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: "self-hosted"
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    # Match and replace 
+     - name: Find and Replace Server name
+        uses: jacobtomlinson/gha-find-replace@v2
+        with:
+          find: "(SERVERNAME)"
+          replace: ${{ secrets.SERVERNAME }}
+          include: 'appsettings.template.json'
+     - name: Find and Replace Server name
+        uses: jacobtomlinson/gha-find-replace@v2
+        with:
+          find: "(DBUSER)"
+          replace: ${{ secrets.DBUSER }}
+          include: 'appsettings.template.json'
+     - name: Find and Replace Server name
+        uses: jacobtomlinson/gha-find-replace@v2
+        with:
+          find: "(DBPASSWORD)"
+          replace: ${{ secrets.DBPASSWORD }}
+          include: 'appsettings.template.json'
+     - name: Find and Replace Server name
+        uses: jacobtomlinson/gha-find-replace@v2
+        with:
+          find: "(JWTKEY)"
+          replace: ${{ secrets.JWTKEY }}
+          include: 'appsettings.template.json'  
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+
