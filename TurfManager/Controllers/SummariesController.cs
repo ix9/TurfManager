@@ -298,16 +298,30 @@ namespace TurfManager.Controllers
                 SummaryDateString = DateTime.Now.ToString("yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture),
                 SummaryAction = id
             };
-
             _context.Summary.Add(summaryAction);
             await _context.SaveChangesAsync();
-
-
-
             return Ok();
-            
+        }
 
-
+// PUT: api/SummaryAction/
+        /// <summary>
+        /// NEW: V2 Log a new Action to the Summary Table. Requires JWT
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("V2/LogAction")]
+        public async Task<ActionResult<Summary>> PostNewSummaryActionV2(int actionid)
+        {
+            // post a summary to the summary table with the action integer passed in (2 is mow)
+            var summaryAction = new Summary
+            {
+                SummaryDateGenerated = DateTime.Now,
+                SummaryDateWst = DateTime.Now,
+                SummaryDateString = DateTime.Now.ToString("yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture),
+                SummaryAction = actionid
+            };
+            _context.Summary.Add(summaryAction);
+            await _context.SaveChangesAsync();
+            return Ok();
         }
 
 

@@ -64,6 +64,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:TurfManager.Controllers.SummariesController.PostNewSummaryActionV2(System.Int32)">
+            <summary>
+            NEW: V2 Log a new Action to the Summary Table. Requires JWT
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:TurfManager.Controllers.SummariesController.DeleteSummary(System.Int32)">
             <summary>
             Delete a specific Summary by ID - Requires JWT.

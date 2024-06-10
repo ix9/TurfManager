@@ -17,6 +17,13 @@ using Microsoft.Extensions.FileProviders;
 using System.IO;
 using System.Reflection;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
+//this is apparently the key one!
+using Microsoft.IdentityModel.JsonWebTokens;
+
+// Microsoft.IdentityModel.Tokens DONE above
+// icrosoft.AspNetCore.Authentication.JwtBearer done
+// Microsoft.IdentityModel.JsonWebTokens
 
 namespace TurfManager
 {
@@ -73,13 +80,23 @@ namespace TurfManager
             {
                 options.RequireHttpsMetadata = false;
                 options.SaveToken = true;
+                options.UseSecurityTokenValidators = true; // new code for .net8 workaround here, doesnt fucken work though.
                 options.TokenValidationParameters = new TokenValidationParameters()
                 {
                     ValidateIssuer = true,
                     ValidateAudience = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidateLifetime = true,
                     ValidAudience = Configuration["Jwt:Audience"],
                     ValidIssuer = Configuration["Jwt:Issuer"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+                    
+                    //IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["Jwt:Key"]))
+                    
+                    // BACKUP IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+                    //IssuerSigningKey = new SymmetricSecurityKey(EncryptionAlgorithm.)
+                  // var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
+                      
                 };
 
             });

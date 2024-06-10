@@ -96,6 +96,13 @@
             "netCore": {
                 "appProject": "${workspaceFolder}/TurfManager/TurfManager.csproj"
             }
+        },
+        {
+            "type": "dotnet",
+            "task": "clean",
+            "group": "clean",
+            "problemMatcher": [],
+            "label": "dotnet: clean"
         }
     ]
 }
