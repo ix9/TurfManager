@@ -8,7 +8,7 @@ USER app
 FROM --platform=linux/amd64 mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG configuration=Release
 WORKDIR /src
-# COPY ["./TurfManager/TurfManager.csproj", "TurfManager/"]
+COPY ["./TurfManager/TurfManager.csproj", "TurfManager/"]
 RUN dotnet restore "TurfManager/TurfManager.csproj"
 COPY . .
 WORKDIR "/src/TurfManager"
