@@ -52,4 +52,8 @@ jobs:
       run: dotnet build --no-restore
     - name: Build docker image
       run: "docker build -t turfmanager:latest -f ./TurfManager/Dockerfile ."
+    - name: Tag docker image
+      run: "docker tag turfmanager ghcr.io/ix9/turfmanager:latest"
+    - name: Push Docker image
+      run: "docker push ghcr.io/ix9/turfmanager:latest"
 
