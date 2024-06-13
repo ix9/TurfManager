@@ -51,5 +51,5 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Build docker image
-      run: "docker build -t turfmanager:latest -f TurfManager/TurfManager/Dockerfile ."
+      run: "docker build -t turfmanager:latest -f ./TurfManager/Dockerfile ."
 
