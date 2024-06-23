@@ -105,7 +105,7 @@ namespace TurfManager.Controllers
                                      select sum;
             var dateofLastPGR = allPGRSummaries.Max(sum => sum.SummaryDateWst);
                       
-            Debug.WriteLine(dateofLastPGR.ToString());
+            //Debug.WriteLine(dateofLastPGR.ToString());
 
             // sum the total of SummaryGDDTotal since that date
             var summariesSince = from sum in _context.Summary
@@ -113,7 +113,7 @@ namespace TurfManager.Controllers
                                 sum.SummaryDateWst > dateofLastPGR
                                 select sum;
             decimal sumofPGRSince = (decimal)summariesSince.AsEnumerable().Sum(row => row.SummaryGddtotal);
-            Debug.WriteLine(sumofPGRSince.ToString());
+            //Debug.WriteLine(sumofPGRSince.ToString());
 
             //return await Ok(sumofPGRSince.ToString());
             return Ok(sumofPGRSince);

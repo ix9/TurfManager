@@ -28,7 +28,7 @@ namespace TurfManager.Controllers
         {
             // Only show the last 10 days worth in the main GET
             var Temperatures = _context.Temperatures.AsQueryable();
-            DateTime TenDaysAgo = DateTime.Now.AddDays(-10);
+            DateTime TenDaysAgo = DateTime.Now.AddDays(-30);
 
 
             if (ShowAll == null)
