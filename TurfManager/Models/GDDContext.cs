@@ -91,33 +91,33 @@ namespace TurfManager.Models
                 entity.HasKey(e => e.UserId)
                     .HasName("PK__UserInfo__1788CC4CBE44B499");
 
-                entity.Property(e => e.CreatedDate)
+                entity.Property(e => e.UserCreatedDate)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.Email)
+                entity.Property(e => e.UserEmail)
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.FirstName)
+                entity.Property(e => e.UserFirstName)
                     .IsRequired()
                     .HasMaxLength(30)
                     .IsUnicode(false);
 
-                entity.Property(e => e.LastName)
+                entity.Property(e => e.UserLastName)
                     .IsRequired()
                     .HasMaxLength(30)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Password)
+                entity.Property(e => e.UserPassword)
                     .IsRequired()
                     .HasMaxLength(20)
                     .IsUnicode(false);
 
-                entity.Property(e => e.UserName)
+                entity.Property(e => e.UserAPIKey)
                     .IsRequired()
-                    .HasMaxLength(30)
+                    .HasMaxLength(50)
                     .IsUnicode(false);
             });
 

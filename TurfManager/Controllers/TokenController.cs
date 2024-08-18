@@ -36,9 +36,9 @@ namespace TurfManager.Controllers
         public async Task<IActionResult> Post(UserInfo _userData)
         {
 
-            if (_userData != null && _userData.Email != null && _userData.Password != null)
+            if (_userData != null && _userData.UserEmail != null && _userData.UserPassword != null)
             {
-                var user = await GetUser(_userData.Email, _userData.Password);
+                var user = await GetUser(_userData.UserEmail, _userData.UserPassword);
 
                 if (user != null)
                 {
@@ -50,10 +50,9 @@ namespace TurfManager.Controllers
                     //new Claim(Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
                     new Claim(Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames.Iat, DateTimeOffset.Now.ToUnixTimeSeconds().ToString()),
                     new Claim("Id", user.UserId.ToString()),
-                    new Claim("FirstName", user.FirstName),
-                    new Claim("LastName", user.LastName),
-                    new Claim("UserName", user.UserName),
-                    new Claim("Email", user.Email)
+                    new Claim("FirstName", user.UserFirstName),
+                    new Claim("LastName", user.UserLastName),
+                    new Claim("Email", user.UserEmail)
                    };
 
                     //var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
@@ -83,7 +82,7 @@ namespace TurfManager.Controllers
 
         private async Task<UserInfo> GetUser(string email, string password)
         {
-            return await _context.UserInfo.FirstOrDefaultAsync(u => u.Email == email && u.Password == password);
+            return await _context.UserInfo.FirstOrDefaultAsync(u => u.UserEmail == email && u.UserPassword == password);
         }
 
 
