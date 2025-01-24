@@ -4,6 +4,18 @@
         <name>TurfManager</name>
     </assembly>
     <members>
+        <member name="M:TurfManager.Controllers.APIController.GetSummaries">
+            <summary>
+            Get all previous actions
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TurfManager.Controllers.APIController.GetActions">
+            <summary>
+            Get all previous actions
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:TurfManager.Controllers.SummariesController.GetSummary(System.Boolean)">
             <summary>
             Returns all summaries in the database. No JWT required.

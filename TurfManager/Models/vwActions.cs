@@ -9,7 +9,7 @@ namespace TurfManager.Models
     {
         public int ID { get; set; }
         public string ActionDateString { get; set; }
-        public string Action { get; set; }
+        public int Action { get; set; }
         public string ActionName { get; set; }
         public string ActionIcon { get; set; }
     }
