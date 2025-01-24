@@ -70,6 +70,26 @@ namespace TurfManager.Controllers
 
 
         }
+
+        // GET: api/Summaries/V2/GetSummaries
+        /// <summary>
+        /// Get all previous actions
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("V2/GetSummaries/")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEnumerable<vwSummaries>>> GetSummaries()
+        {
+            
+            var vwSummaries = from sa in _context.vwSummaries
+                               select sa;
+            return await vwSummaries.ToListAsync();
+
+
+        }
+
         // GET: api/Summaries/GetActionSummary
         /// <summary>
         /// Get an Overview of the last time each of the actions were performed.

@@ -11,6 +11,12 @@
             <param name="Last45"></param>
             <returns></returns>
         </member>
+        <member name="M:TurfManager.Controllers.SummariesController.GetSummaries">
+            <summary>
+            Get all previous actions
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:TurfManager.Controllers.SummariesController.GetOverview">
             <summary>
             Get an Overview of the last time each of the actions were performed.

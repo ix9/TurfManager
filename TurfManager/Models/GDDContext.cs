@@ -17,6 +17,8 @@ namespace TurfManager.Models
         public virtual DbSet<Temperatures> Temperatures { get; set; }
         public virtual DbSet<UserInfo> UserInfo { get; set; }
         public virtual DbSet<ActionSummary> ActionSummary { get; set; }
+        public virtual DbSet<vwSummaries> vwSummaries { get; set; }
+        public virtual DbSet<vwActions> vwActions { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -119,6 +121,32 @@ namespace TurfManager.Models
                     .IsRequired()
                     .HasMaxLength(30)
                     .IsUnicode(false);
+            });
+
+
+            modelBuilder.Entity<vwActions>(entity =>
+            {
+                entity.ToView(nameof(vwActions));
+                entity.HasNoKey();
+                entity.Property(e => e.ID).HasColumnName("ID");
+                entity.Property(e => e.ActionDateString).HasColumnName("ActionDateString");
+                entity.Property(e => e.Action).HasColumnName("Action");
+                entity.Property(e => e.ActionName).HasColumnName("ActionName");
+                entity.Property(e => e.ActionIcon).HasColumnName("ActionIcon");
+
+            });
+
+                modelBuilder.Entity<vwSummaries>(entity =>
+            {
+                entity.ToView(nameof(vwSummaries));
+                entity.HasNoKey();
+                entity.Property(e => e.ID).HasColumnName("ID");
+                entity.Property(e => e.SummaryDateString).HasColumnName("SummaryDateString");
+                entity.Property(e => e.SummaryDateTime).HasColumnName("SummaryDateTime");
+                entity.Property(e => e.MaxTemp).HasColumnName("MaxTemp");
+                entity.Property(e => e.MinTemp).HasColumnName("MinTemp");
+                entity.Property(e => e.GDDNumber).HasColumnName("GDDNumber");
+
             });
 
             OnModelCreatingPartial(modelBuilder);
